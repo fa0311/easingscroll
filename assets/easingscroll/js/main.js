@@ -44,26 +44,22 @@ class easingscroll {
 
         var scroll = function () {
             $easingscroll.scrollToplog[0] = $(window).scrollTop();
-            if ($easingscroll.scrollToplog[1] == $easingscroll.scrollToplog[0]) { //移動していないなら
-
-                if ($easingscroll.scrollTop % $easingscroll.height > 25 && $easingscroll.stop) {
+            if ($easingscroll.scrollToplog[1] == $easingscroll.scrollToplog[0]) {
+                if ($easingscroll.scrollTop % $easingscroll.height > ($easingscroll.scroll_speed / (2 * $easingscroll.scrollToplog[3]))) {
                     if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] < 0) {
-                        $(window).scrollTop($easingscroll.scrollToplog[0] - $easingscroll.scroll_speed);
+                        $(window).scrollTop($easingscroll.scrollToplog[0] - ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
                     }
                     if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] > 0) {
-                        $(window).scrollTop($easingscroll.scrollToplog[0] + $easingscroll.scroll_speed);
+                        $(window).scrollTop($easingscroll.scrollToplog[0] + ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
                     }
                 } else {
-                    $easingscroll.stop = false;
+                    $easingscroll.scrollToplog[3]++;
                 }
                 $easingscroll.scrollToplog[1] = $(window).scrollTop();
             } else {
-                console.log("qqq")
                 $easingscroll.scrollToplog[2] = $easingscroll.scrollToplog[1];
                 $easingscroll.scrollToplog[1] = $easingscroll.scrollToplog[0];
-                $easingscroll.stop = true;
-
-
+                $easingscroll.scrollToplog[3] = 1;
             }
 
             let instance = $("page").eq($easingscroll.eq);
@@ -87,6 +83,7 @@ class easingscroll {
 
     }
     get_easebox_top() {
+        console.log(this.scrollTop + this.height / 2) % this.height - this.height / 2;
         return (this.scrollTop + this.height / 2) % this.height - this.height / 2;
     }
 }
