@@ -6,6 +6,7 @@ class easingscroll {
         this.scrollToplog = {};
         this.frame_speed = 30;
         this.scroll_speed = 50;
+        this.mobile = $(window).width() <= 1024;
         this.easelist = {
             "default": function (n) {
                 return {
@@ -44,22 +45,24 @@ class easingscroll {
 
         var scroll = function () {
             $easingscroll.scrollToplog[0] = $(window).scrollTop();
-            if ($easingscroll.scrollToplog[1] == $easingscroll.scrollToplog[0]) {
-                if ($easingscroll.scrollTop % $easingscroll.height > ($easingscroll.scroll_speed / (2 * $easingscroll.scrollToplog[3]))) {
-                    if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] < 0) {
-                        $(window).scrollTop($easingscroll.scrollToplog[0] - ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
+            if (!$easingscroll.mobile) {
+                if ($easingscroll.scrollToplog[1] == $easingscroll.scrollToplog[0]) {
+                    if ($easingscroll.scrollTop % $easingscroll.height > ($easingscroll.scroll_speed / (2 * $easingscroll.scrollToplog[3]))) {
+                        if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] < 0) {
+                            $(window).scrollTop($easingscroll.scrollToplog[0] - ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
+                        }
+                        if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] > 0) {
+                            $(window).scrollTop($easingscroll.scrollToplog[0] + ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
+                        }
+                    } else {
+                        $easingscroll.scrollToplog[3]++;
                     }
-                    if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] > 0) {
-                        $(window).scrollTop($easingscroll.scrollToplog[0] + ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
-                    }
+                    $easingscroll.scrollToplog[1] = $(window).scrollTop();
                 } else {
-                    $easingscroll.scrollToplog[3]++;
+                    $easingscroll.scrollToplog[2] = $easingscroll.scrollToplog[1];
+                    $easingscroll.scrollToplog[1] = $easingscroll.scrollToplog[0];
+                    $easingscroll.scrollToplog[3] = 1;
                 }
-                $easingscroll.scrollToplog[1] = $(window).scrollTop();
-            } else {
-                $easingscroll.scrollToplog[2] = $easingscroll.scrollToplog[1];
-                $easingscroll.scrollToplog[1] = $easingscroll.scrollToplog[0];
-                $easingscroll.scrollToplog[3] = 1;
             }
 
             let instance = $("page").eq($easingscroll.eq);
