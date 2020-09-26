@@ -6,7 +6,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <style>
-        p {
+        p.top {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            text-align: center;
+        }
+
+        p.center {
             position: absolute;
             top: 0;
             right: 0;
@@ -17,6 +25,14 @@
             height: 3.2rem;
             text-align: center;
         }
+
+        p.bottom {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -24,25 +40,37 @@
     <!-- 要素は必ずpageタグの中に追加してください -->
     <!-- easeに動きの種類を指定します 最初から使えるのは以下の5種類です -->
     <page>
-        <p>初期値(default)</p>
+        <p class="top">初期値(default)</p>
+        <p class="center">初期値(default)</p>
+        <p class="bottom">初期値(default)</p>
     </page>
     <page ease="quadratic">
-        <p>quadratic</p>
+        <p class="top">quadratic</p>
+        <p class="center">quadratic</p>
+        <p class="bottom">quadratic</p>
     </page>
     <page ease="reverse_quadratic">
-        <p>reverse_quadratic</p>
+        <p class="top">reverse_quadratic</p>
+        <p class="center">reverse_quadratic</p>
+        <p class="bottom">reverse_quadratic</p>
     </page>
     <page ease="cubic">
-        <p>cubic</p>
+        <p class="top">cubic</p>
+        <p class="center">cubic</p>
+        <p class="bottom">cubic</p>
     </page>
     <page ease="reverse_cubic">
-        <p>reverse_cubic</p>
+        <p class="top">reverse_cubic</p>
+        <p class="center">reverse_cubic</p>
+        <p class="bottom">reverse_cubic</p>
     </page>
     <!-- ここまで -->
 
     <!-- 他のイージングを読み込む場合も同様 -->
     <page ease="custom_ease_sample">
-        <p>custom_ease</p>
+        <p class="top">custom_ease</p>
+        <p class="center">custom_ease</p>
+        <p class="bottom">custom_ease</p>
     </page>
     <!-- ここまで -->
 </body>
