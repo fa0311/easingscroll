@@ -9,27 +9,27 @@ class easingscroll {
         this.easelist = {
             "default": function (n) {
                 return {
-                    "top": n
+                    "top": n * 2
                 };
             },
             "quadratic": function (n) {
                 return {
-                    "top": n * n * 0.005
+                    "top": n * n * 0.008
                 };
             },
             "cubic": function (n) {
                 return {
-                    "top": n * n * n * 0.00001
+                    "top": n * n * n * 0.00002
                 };
             },
             "reverse_quadratic": function (n) {
                 return {
-                    "top": n * n * -0.005
+                    "top": n * n * -0.008
                 };
             },
             "reverse_cubic": function (n) {
                 return {
-                    "top": n * n * n * -0.00001
+                    "top": n * n * n * -0.00002
                 };
             }
         }
