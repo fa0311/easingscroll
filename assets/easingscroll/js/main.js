@@ -40,47 +40,47 @@ class easingscroll {
         });
 
         $(window).resize(function () {
-            $easingscroll.height = $("page").eq(0).height();
+            $es.height = $("page").eq(0).height();
         });
 
         var scroll = function () {
-            $easingscroll.scrollToplog[0] = $(window).scrollTop();
-            if (!$easingscroll.mobile) {
-                if ($easingscroll.scrollToplog[1] == $easingscroll.scrollToplog[0]) {
-                    if ($easingscroll.scrollTop % $easingscroll.height > ($easingscroll.scroll_speed / (2 * $easingscroll.scrollToplog[3]))) {
-                        if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] < 0) {
-                            $(window).scrollTop($easingscroll.scrollToplog[0] - ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
+            $es.scrollToplog[0] = $(window).scrollTop();
+            if (!$es.mobile) {
+                if ($es.scrollToplog[1] == $es.scrollToplog[0]) {
+                    if ($es.scrollTop % $es.height > ($es.scroll_speed / (2 * $es.scrollToplog[3]))) {
+                        if ($es.scrollToplog[1] - $es.scrollToplog[2] < 0) {
+                            $(window).scrollTop($es.scrollToplog[0] - ($es.scroll_speed / $es.scrollToplog[3]));
                         }
-                        if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] > 0) {
-                            $(window).scrollTop($easingscroll.scrollToplog[0] + ($easingscroll.scroll_speed / $easingscroll.scrollToplog[3]));
+                        if ($es.scrollToplog[1] - $es.scrollToplog[2] > 0) {
+                            $(window).scrollTop($es.scrollToplog[0] + ($es.scroll_speed / $es.scrollToplog[3]));
                         }
                     } else {
-                        $easingscroll.scrollToplog[3]++;
+                        $es.scrollToplog[3]++;
                     }
-                    $easingscroll.scrollToplog[1] = $(window).scrollTop();
+                    $es.scrollToplog[1] = $(window).scrollTop();
                 } else {
-                    $easingscroll.scrollToplog[2] = $easingscroll.scrollToplog[1];
-                    $easingscroll.scrollToplog[1] = $easingscroll.scrollToplog[0];
-                    $easingscroll.scrollToplog[3] = 1;
+                    $es.scrollToplog[2] = $es.scrollToplog[1];
+                    $es.scrollToplog[1] = $es.scrollToplog[0];
+                    $es.scrollToplog[3] = 1;
                 }
             }
 
-            let instance = $("page").eq($easingscroll.eq);
-            $easingscroll.scrollTop = $(window).scrollTop() * 0.1;
+            let instance = $("page").eq($es.eq);
+            $es.scrollTop = $(window).scrollTop() * 0.1;
 
-            if ($easingscroll.eq != Math.round($easingscroll.scrollTop / $easingscroll.height)) {
-                $easingscroll.eq = Math.round($easingscroll.scrollTop / $easingscroll.height);
+            if ($es.eq != Math.round($es.scrollTop / $es.height)) {
+                $es.eq = Math.round($es.scrollTop / $es.height);
                 $(".page-display").removeClass("page-display");
-                $("page").eq($easingscroll.eq).addClass("page-display");
-                instance = $("page").eq($easingscroll.eq);
+                $("page").eq($es.eq).addClass("page-display");
+                instance = $("page").eq($es.eq);
             }
             if (instance.attr("ease")) {
-                instance.css($easingscroll.easelist[instance.attr("ease")]($easingscroll.get_easebox_top()));
+                instance.css($es.easelist[instance.attr("ease")]($es.get_easebox_top()));
             } else {
-                instance.css($easingscroll.easelist["default"]($easingscroll.get_easebox_top()));
+                instance.css($es.easelist["default"]($es.get_easebox_top()));
             }
 
-            setTimeout(scroll, $easingscroll.frame_speed);
+            setTimeout(scroll, $es.frame_speed);
         };
         setTimeout(scroll, this.frame_speed);
 
@@ -89,4 +89,4 @@ class easingscroll {
         return (this.scrollTop + this.height / 2) % this.height - this.height / 2;
     }
 }
-var $easingscroll = new easingscroll();
+var $es = new easingscroll();
