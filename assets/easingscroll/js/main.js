@@ -16,22 +16,22 @@ class easingscroll {
             },
             "quadratic": function (n) {
                 return {
-                    "top": n * n * 0.01
+                    "top": n * n * 0.005
                 };
             },
             "cubic": function (n) {
                 return {
-                    "top": n * n * n * 0.0001
+                    "top": n * n * n * 0.00005
                 };
             },
             "reverse_quadratic": function (n) {
                 return {
-                    "top": n * n * -0.01
+                    "top": n * n * -0.005
                 };
             },
             "reverse_cubic": function (n) {
                 return {
-                    "top": n * n * n * -0.0001
+                    "top": n * n * n * -0.00005
                 };
             }
         }
