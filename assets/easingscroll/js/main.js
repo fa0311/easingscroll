@@ -86,7 +86,6 @@ class easingscroll {
 
     }
     get_easebox_top() {
-        console.log(this.scrollTop + this.height / 2) % this.height - this.height / 2;
         return (this.scrollTop + this.height / 2) % this.height - this.height / 2;
     }
 }
