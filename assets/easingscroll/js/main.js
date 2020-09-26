@@ -1,13 +1,11 @@
 class easingscroll {
     constructor() {
-        var that = this;
         this.height = $("page").eq(0).height();
         this.scrollTop = $(window).scrollTop();
         this.eq = 0;
-        this.scroll_speed = 0;
-        this.scrollTop1 = 0;
-        this.scrollTop2 = 0;
-        this.scroll_timeout = false;
+        this.scrollToplog = {};
+        this.frame_speed = 30;
+        this.scroll_speed = 50;
         this.easelist = {
             "default": function (n) {
                 return {
@@ -21,7 +19,7 @@ class easingscroll {
             },
             "cubic": function (n) {
                 return {
-                    "top": n * n * n * 0.00005
+                    "top": n * n * n * 0.00001
                 };
             },
             "reverse_quadratic": function (n) {
@@ -31,36 +29,65 @@ class easingscroll {
             },
             "reverse_cubic": function (n) {
                 return {
-                    "top": n * n * n * -0.00005
+                    "top": n * n * n * -0.00001
                 };
             }
         }
         $("page").eq(0).addClass("page-display");
         $("body").css({
-            "height": that.height * 10 * ($('page').length - 0.5) + "px"
+            "height": this.height * 10 * ($('page').length - 0.5) + "px"
         });
 
         $(window).resize(function () {
-            that.height = $("page").eq(0).height();
+            $easingscroll.height = $("page").eq(0).height();
         });
 
-        setInterval(function () {
-            let instance = $("page").eq(that.eq);
-            that.scrollTop = $(window).scrollTop() * 0.1;
+        var scroll = function () {
+            $easingscroll.scrollToplog[0] = $(window).scrollTop();
+            if ($easingscroll.scrollToplog[1] == $easingscroll.scrollToplog[0]) { //移動していないなら
 
-            if (that.eq != Math.round(that.scrollTop / that.height)) {
-                that.eq = Math.round(that.scrollTop / that.height);
-                $(".page-display").removeClass("page-display");
-                $("page").eq(that.eq).addClass("page-display");
-                instance = $("page").eq(that.eq);
-            }
-            let top = (that.scrollTop + that.height / 2) % that.height - that.height / 2;
-            if (instance.attr("ease")) {
-                instance.css(that.easelist[instance.attr("ease")](top));
+                if ($easingscroll.scrollTop % $easingscroll.height > 25 && $easingscroll.stop) {
+                    if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] < 0) {
+                        $(window).scrollTop($easingscroll.scrollToplog[0] - $easingscroll.scroll_speed);
+                    }
+                    if ($easingscroll.scrollToplog[1] - $easingscroll.scrollToplog[2] > 0) {
+                        $(window).scrollTop($easingscroll.scrollToplog[0] + $easingscroll.scroll_speed);
+                    }
+                } else {
+                    $easingscroll.stop = false;
+                }
+                $easingscroll.scrollToplog[1] = $(window).scrollTop();
             } else {
-                instance.css(that.easelist["default"](top));
+                console.log("qqq")
+                $easingscroll.scrollToplog[2] = $easingscroll.scrollToplog[1];
+                $easingscroll.scrollToplog[1] = $easingscroll.scrollToplog[0];
+                $easingscroll.stop = true;
+
+
             }
-        }, 20);
+
+            let instance = $("page").eq($easingscroll.eq);
+            $easingscroll.scrollTop = $(window).scrollTop() * 0.1;
+
+            if ($easingscroll.eq != Math.round($easingscroll.scrollTop / $easingscroll.height)) {
+                $easingscroll.eq = Math.round($easingscroll.scrollTop / $easingscroll.height);
+                $(".page-display").removeClass("page-display");
+                $("page").eq($easingscroll.eq).addClass("page-display");
+                instance = $("page").eq($easingscroll.eq);
+            }
+            if (instance.attr("ease")) {
+                instance.css($easingscroll.easelist[instance.attr("ease")]($easingscroll.get_easebox_top()));
+            } else {
+                instance.css($easingscroll.easelist["default"]($easingscroll.get_easebox_top()));
+            }
+
+            setTimeout(scroll, $easingscroll.frame_speed);
+        };
+        setTimeout(scroll, this.frame_speed);
+
+    }
+    get_easebox_top() {
+        return (this.scrollTop + this.height / 2) % this.height - this.height / 2;
     }
 }
 var $easingscroll = new easingscroll();
