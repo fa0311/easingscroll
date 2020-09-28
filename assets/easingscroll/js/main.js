@@ -56,7 +56,7 @@ class easingscroll {
                             $(window).scrollTop($es.scrollToplog[0] + ($es.scroll_speed / $es.scrollToplog[3]));
                         }
                     } else if ($es.scrollToplog[3] < 100) {
-                        $es.scrollToplog[3] = $es.scrollToplog[3] * 2;
+                        $es.scrollToplog[3] = $es.scrollToplog[3] * 1.5;
                     }
                     $es.scrollToplog[1] = $(window).scrollTop();
                 } else {
