@@ -6,7 +6,7 @@ class easingscroll {
         this.scrollToplog = {};
         this.frame_speed = 30;
         this.scroll_speed = 50;
-        this.mobile = $(window).width() <= 1024;
+        this.scroll_distance = 10;
         this.easelist = {
             "default": function (n) {
                 return {
@@ -36,7 +36,7 @@ class easingscroll {
         }
         $("page").eq(0).addClass("page-display");
         $("body").css({
-            "height": this.height * 10 * ($('page').length - 0.5) + "px"
+            "height": this.height * this.scroll_distance * ($('page').length - 0.5) + "px"
         });
 
         $(window).resize(function () {
@@ -44,29 +44,27 @@ class easingscroll {
         });
 
         var scroll = function () {
-            if (!$es.mobile) {
-                $es.scrollToplog[0] = $(window).scrollTop();
-                if ($es.scrollToplog[1] == $es.scrollToplog[0]) {
-                    if ($es.scrollTop % $es.height > ($es.scroll_speed / $es.scrollToplog[3])) {
-                        if ($es.scrollToplog[1] - $es.scrollToplog[2] < 0) {
-                            $(window).scrollTop($es.scrollToplog[0] - ($es.scroll_speed / $es.scrollToplog[3]));
-                        }
-                        if ($es.scrollToplog[1] - $es.scrollToplog[2] > 0) {
-                            $(window).scrollTop($es.scrollToplog[0] + ($es.scroll_speed / $es.scrollToplog[3]));
-                        }
-                    } else {
-                        $es.scrollToplog[3]++;
+            $es.scrollToplog[0] = $(window).scrollTop();
+            if ($es.scrollToplog[1] == $es.scrollToplog[0]) {
+                if ($es.scrollTop % $es.height > ($es.scroll_speed / $es.scrollToplog[3])) {
+                    if ($es.scrollToplog[1] - $es.scrollToplog[2] < 0) {
+                        $(window).scrollTop($es.scrollToplog[0] - ($es.scroll_speed / $es.scrollToplog[3]));
                     }
-                    $es.scrollToplog[1] = $(window).scrollTop();
-                } else {
-                    $es.scrollToplog[2] = $es.scrollToplog[1];
-                    $es.scrollToplog[1] = $es.scrollToplog[0];
-                    $es.scrollToplog[3] = 1;
+                    if ($es.scrollToplog[1] - $es.scrollToplog[2] > 0) {
+                        $(window).scrollTop($es.scrollToplog[0] + ($es.scroll_speed / $es.scrollToplog[3]));
+                    }
+                } else if ($es.scrollToplog[3] < 1000) {
+                    $es.scrollToplog[3] = $es.scrollToplog[3] * 2;
                 }
+                $es.scrollToplog[1] = $(window).scrollTop();
+            } else {
+                $es.scrollToplog[2] = $es.scrollToplog[1];
+                $es.scrollToplog[1] = $es.scrollToplog[0];
+                $es.scrollToplog[3] = 1;
             }
 
             let instance = $("page").eq($es.eq);
-            $es.scrollTop = $(window).scrollTop() * 0.1;
+            $es.scrollTop = $(window).scrollTop() / $es.scroll_distance;
 
             if ($es.eq != Math.round($es.scrollTop / $es.height)) {
                 $es.eq = Math.round($es.scrollTop / $es.height);
