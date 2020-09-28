@@ -37,7 +37,7 @@ class easingscroll {
         }
         $("page").eq(0).addClass("page-display");
         $("body").css({
-            "height": this.height * this.scroll_distance * ($('page').length - 0.5) + "px"
+            "height": this.height * this.scroll_distance * ($('page').length - 1) + "px"
         });
 
         $(window).resize(function () {
