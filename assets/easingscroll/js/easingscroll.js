@@ -36,13 +36,8 @@ class easingscroll {
             }
         }
         $("page").eq(0).addClass("page-display");
-        $("body").css({
-            "height": this.height * this.scroll_distance * ($('page').length - 1) + "px"
-        });
 
-        $(window).resize(function () {
-            $es.height = $("page").eq(0).height();
-        });
+        this.reload();
 
         var scroll = function () {
             if (!$es.mobile) {
@@ -87,6 +82,11 @@ class easingscroll {
     }
     get_easebox_top() {
         return (this.scrollTop + this.height / 2) % this.height - this.height / 2;
+    }
+    reload() {
+        $("body").css({
+            "height": this.height * this.scroll_distance * ($('page').length - 1) + "px"
+        });
     }
 }
 var $es = new easingscroll();
