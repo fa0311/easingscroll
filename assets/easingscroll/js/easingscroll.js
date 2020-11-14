@@ -1,63 +1,51 @@
 class easingscroll {
     constructor() {
-        this.height = $("page").eq(0).height();
+        this.height = $(window).height() / 2;
         this.scrollTop = $(window).scrollTop();
         this.eq = 0;
         this.scrollToplog = {};
         this.frame_speed = 30;
-        this.scroll_speed = 10;
-        this.scroll_distance = 1.5;
-        this.scroll_stop_speed = 1;
-        this.mobile = $(window).width() <= 1024;
+        this.scroll_distance = 5;
+        this.view_page_change = function () {};
+
         this.easelist = {
             "default": function (n) {
                 return {
-                    "top": n * 2
+                    "top": n * 2,
+                    "opacity": 1 - Math.abs(n / 250)
                 };
             },
             "quadratic": function (n) {
                 return {
-                    "top": n * n * 0.008
+                    "top": n * n * 0.008,
+                    "opacity": 1 - Math.abs(n / 250)
                 };
             },
             "cubic": function (n) {
                 return {
-                    "top": n * n * n * 0.00002
+                    "top": n * n * n * 0.00002,
+                    "opacity": 1 - Math.abs(n / 250)
                 };
             },
             "reverse_quadratic": function (n) {
                 return {
-                    "top": n * n * -0.008
+                    "top": n * n * -0.008,
+                    "opacity": 1 - Math.abs(n / 250)
                 };
             },
             "reverse_cubic": function (n) {
                 return {
-                    "top": n * n * n * -0.00002
+                    "top": n * n * n * -0.00002,
+                    "opacity": 1 - Math.abs(n / 250)
                 };
             }
         }
         $("page").eq(0).addClass("page-display");
+        $("page").eq(0).css("height", $(window).height());
 
         this.reload();
 
         var scroll = function () {
-            if (!$es.mobile) {
-                $es.scrollToplog[0] = $(window).scrollTop();
-                if ($es.scrollToplog[1] == $es.scrollToplog[0]) {
-                    if ($es.scrollTop % $es.height > ($es.scroll_speed / $es.scroll_stop_speed)) {
-                        if ($es.scrollToplog[1] - $es.scrollToplog[2] < 0) {
-                            $(window).scrollTop($es.scrollToplog[0] - ($es.scroll_speed / $es.scroll_stop_speed));
-                        }
-                        if ($es.scrollToplog[1] - $es.scrollToplog[2] > 0) {
-                            $(window).scrollTop($es.scrollToplog[0] + ($es.scroll_speed / $es.scroll_stop_speed));
-                        }
-                    }
-                    $es.scrollToplog[1] = $(window).scrollTop();
-                } else {
-                    $es.scrollToplog[2] = $es.scrollToplog[1];
-                    $es.scrollToplog[1] = $es.scrollToplog[0];
-                }
-            }
             let instance = $("page").eq($es.eq);
             $es.scrollTop = $(window).scrollTop() / $es.scroll_distance;
 
@@ -66,6 +54,8 @@ class easingscroll {
                 $(".page-display").removeClass("page-display");
                 $("page").eq($es.eq).addClass("page-display");
                 instance = $("page").eq($es.eq);
+                $es.view_page_change($es.eq);
+                $("page").eq($es.eq).css("height", $(window).height());
             }
             if (instance.attr("ease")) {
                 instance.css($es.easelist[instance.attr("ease")]($es.get_easebox_top()));
@@ -83,8 +73,13 @@ class easingscroll {
     }
     reload() {
         $("body").css({
-            "height": this.height * this.scroll_distance * ($('page').length - 1) + "px"
+            "height": this.height * ($('page').length - 1) * this.scroll_distance + this.height * 2
         });
     }
 }
-var $es = new easingscroll();
+
+var $es;
+
+function easingscroll_load() {
+    $es = new easingscroll();
+}
