@@ -83,3 +83,4 @@ var $es;
 function easingscroll_load() {
     $es = new easingscroll();
 }
+easingscroll_load();
